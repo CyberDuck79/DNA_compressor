@@ -6,36 +6,45 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/10 16:43:54 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:56:42 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "compressor.h"
 
-static unsigned char	symbol(char c)
-{
-	static const char	index[] = "ACGT";
-	unsigned char	i = 0;
+/*
+** TODO :
+** - ajouter la longeur de la chaine DNA source dans le fichier compressé
+** - vérifier l'entrée (ACTG)
+** - permettre whitespace + trim
+** - décompression avec lecture de longueur pour prendre en compte le padding
+*/
 
-	while (index[i])
-	{
-		if (index[i] == c)
-			return (i);
-		i++;
-	}
-	return (0);
-}
+/*
+** Symbols compression :
+** A : 0b00
+** C : 0b01
+** G : 0b10
+** T : 0b11
+*/
 
 static void		compress(int fd, char *dna)
 {
 	size_t	i;
-	char	block;
+	uint8_t	block;
 
 	while (*dna)
 	{
-		block = 0;
-		for (i = 0; i != 8 && *dna; i += 2, dna++)
-			block |= symbol(*dna) << i;
+		block = 0b00000000;
+		for (i = 0; i < 8 && *dna; i += 2, dna++)
+		{
+			if (*dna == "C")
+				block |= 0b01 << i;
+			else if (*dna == "G")
+				block |= 0b10 << i;
+			else
+				block |= 0b11 << i;
+		}
 		write(fd, &block, 1);
 	}
 }
