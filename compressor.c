@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/10 16:26:03 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:29:10 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void		compress(int fd, char *dna)
 
 	while (*dna)
 	{
+		block = 0;
 		for (i = 0; i != 8 && *dna; i += 2, dna++)
 			block |= symbol(*dna) << i;
 		write(fd, &block, 1);
