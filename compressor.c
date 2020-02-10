@@ -6,22 +6,23 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/10 16:29:10 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:43:54 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "compressor.h"
 
-static t_symbol	symbol(char c)
+static unsigned char	symbol(char c)
 {
-	if (c == 'A')
-		return (A);
-	if (c == 'C')
-		return (C);
-	if (c == 'G')
-		return (G);
-	if (c == 'T')
-		return (T);
+	static const char	index[] = "ACGT";
+	unsigned char	i = 0;
+
+	while (index[i])
+	{
+		if (index[i] == c)
+			return (i);
+		i++;
+	}
 	return (0);
 }
 
