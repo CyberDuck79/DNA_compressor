@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:53:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/10 16:44:34 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:48:15 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@
 # include "stdint.h"
 
 # define BUFF_SIZE 1024
-
+# define BITS_PER_BYTE 8
 #endif
