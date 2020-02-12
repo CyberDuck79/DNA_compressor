@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/12 20:27:55 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/12 20:37:59 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void		compress(int fd, char *dna, size_t size)
 	size_t	i;
 	uint8_t	block;
 
-	printf("%lu\n", size);
 	write(fd, &size, sizeof(size_t));
 	while (*dna)
 	{
@@ -60,9 +59,7 @@ static void		decompress_block(int fd, char block, size_t size)
 
 	for (i = 0; i < size; i += 2)
 	{
-		dna = 0;
 		dna = (0b11 & (block >> i));
-		printf("%c", dna);
 		if (dna == 0b00)
 			dna = 'A';
 		else if (dna == 0b01)
@@ -77,7 +74,7 @@ static void		decompress_block(int fd, char block, size_t size)
 
 static void		decompress(int fd, char *block, size_t size)
 {
-	int		pad = size % 4;
+	int		padding = size % 4;
 
 	printf("%lu\n", size);
 	while ((size -= 4))
@@ -85,8 +82,8 @@ static void		decompress(int fd, char *block, size_t size)
 		decompress_block(fd, *block, 8);
 		block++;
 	}
-	pad = pad ? pad * 2 : 8;
-	decompress_block(fd, *block, pad);
+	padding = padding ? padding * 2 : 8; // padding ? hum padding...
+	decompress_block(fd, *block, padding);
 }
 
 static char		*read_file(int fd, size_t offset)
