@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/12 20:37:59 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/12 20:56:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 /*
 ** TODO :
 ** - vérifier l'entrée (ACTG)
-** - permettre whitespace + trim
+** - permettre whitespace et donc ajouter trim
+** - un flag compression/décompression (-c/-d)
+** - une vérification de l'extension fichier
+** - USAGE
 */
 
 /*
@@ -74,15 +77,17 @@ static void		decompress_block(int fd, char block, size_t size)
 
 static void		decompress(int fd, char *block, size_t size)
 {
-	int		padding = size % 4;
+	size_t	i = 0;
+	int		padding = (size % 4) * 2;
 
-	printf("%lu\n", size);
-	while ((size -= 4))
+	if (padding)
+		size--;
+	while (i < size)
 	{
 		decompress_block(fd, *block, 8);
 		block++;
+		i += 4;
 	}
-	padding = padding ? padding * 2 : 8; // padding ? hum padding...
 	decompress_block(fd, *block, padding);
 }
 
