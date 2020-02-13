@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compressor.h                                       :+:      :+:    :+:   */
+/*   progress_bar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/10 15:53:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 15:16:19 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/02/13 15:13:50 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/02/13 15:15:42 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPRESSOR_H
-# define COMPRESSOR_H
+#include "progress_bar.h"
 
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stdint.h>
-
-# define BUFF_SIZE 1024
-# define BITS_PER_BYTE 8
-
-typedef enum	e_error
+void	ft_progress(size_t total)
 {
-	NO_ERROR,
-	USAGE_ERROR,
-	EXT_ERROR,
-	FILE_ERROR
-}				t_error;
+	static size_t	count = 1;
+	int				bar = count * BAR_LENGTH / total;;
+	int				load = BAR_LENGTH - bar;
+	int				percent = count * 100 / total;
 
-#endif
+	fflush(stdout);
+	printf("\rProgress [%.*s%.*s] %i%%", bar, BAR, load, LOAD, percent);
+	if (count < total)
+		count++;
+}

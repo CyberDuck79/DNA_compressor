@@ -6,11 +6,12 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 12:39:44 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 15:16:32 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "compressor.h"
+#include "progress_bar.h"
 
 /*
 ** TODO :
@@ -47,6 +48,7 @@ static t_error	compress(int fd, char *dna, size_t size)
 				block |= (0b10 << i);
 			else if (*dna == 'T')
 				block |= (0b11 << i);
+			ft_progress(size);
 		}
 		if (write(fd, &block, 1) != 1)
 			return (FILE_ERROR);
@@ -89,6 +91,7 @@ static t_error	decompress(int fd, char *block, size_t size)
 			return (FILE_ERROR);
 		block++;
 		i += 4;
+		ft_progress(size / 4);
 	}
 	return (decompress_block(fd, *block, padding));
 }

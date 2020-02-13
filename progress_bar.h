@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compressor.h                                       :+:      :+:    :+:   */
+/*   progress_bar.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/10 15:53:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 15:16:19 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/02/13 15:13:47 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/02/13 15:16:55 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPRESSOR_H
-# define COMPRESSOR_H
+#ifndef PROGRESS_BAR_H
+# define PROGRESS_BAR_H
 
-# include <fcntl.h>
+# include <stddef.h>
 # include <unistd.h>
-# include <stdlib.h>
+# include <fcntl.h>
 # include <string.h>
-# include <stdint.h>
+# include <stdio.h>
 
-# define BUFF_SIZE 1024
-# define BITS_PER_BYTE 8
+# define BAR_LENGTH 60
+# define BAR "============================================================"
+# define LOAD "                                                            "
 
-typedef enum	e_error
-{
-	NO_ERROR,
-	USAGE_ERROR,
-	EXT_ERROR,
-	FILE_ERROR
-}				t_error;
+void	ft_progress(size_t total);
 
 #endif
