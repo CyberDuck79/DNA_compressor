@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 10:53:47 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 10:57:55 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 ** TODO :
 ** - vérifier l'entrée (ACTG)
 ** - permettre whitespace et donc ajouter trim
-** - un flag compression/décompression (-c/-d)
-** - une vérification de l'extension fichier
-** - USAGE
 */
 
 /*
