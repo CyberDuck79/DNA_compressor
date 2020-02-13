@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 15:16:32 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 18:56:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 static t_error	compress(int fd, char *dna, size_t size)
 {
 	size_t	i;
+	size_t	zip_size = size / 4;
 	uint8_t	block;
 
 	if (write(fd, &size, sizeof(size_t)) != sizeof(size_t))
@@ -48,8 +49,8 @@ static t_error	compress(int fd, char *dna, size_t size)
 				block |= (0b10 << i);
 			else if (*dna == 'T')
 				block |= (0b11 << i);
-			ft_progress(size);
 		}
+		ft_progress(zip_size);
 		if (write(fd, &block, 1) != 1)
 			return (FILE_ERROR);
 	}
@@ -80,18 +81,23 @@ static t_error	decompress_block(int fd, char block, size_t size)
 
 static t_error	decompress(int fd, char *block, size_t size)
 {
-	size_t	i = 0;
-	int		padding = (size % 4) * 2;
+	size_t	zip_size = size / 4;
+	size_t	padding = (size % 4) * 2;
+	size_t	dezip_i;
+	size_t	line_i;
 
 	if (padding)
 		size--;
-	while (i < size)
+	for (dezip_i = 0, line_i = 0; dezip_i < size; block++, dezip_i += 4)
 	{
 		if (decompress_block(fd, *block, 8) == FILE_ERROR)
 			return (FILE_ERROR);
-		block++;
-		i += 4;
-		ft_progress(size / 4);
+		if (++line_i == 15)
+		{
+			line_i = 0;
+			write(fd, "\n", 1);
+		}
+		ft_progress(zip_size);
 	}
 	return (decompress_block(fd, *block, padding));
 }
@@ -224,5 +230,6 @@ int			main(int ac, char **av)
 	}
 	else
 		print_error(EXT_ERROR);
+	write(1, "\n", 1);
 	return (safe_exit(fd_read, fd_write, dna));
 }
