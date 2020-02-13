@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 10:57:55 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/13 12:39:44 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 /*
 ** TODO :
-** - vérifier l'entrée (ACTG)
-** - permettre whitespace et donc ajouter trim
+** - permettre de choisir une longueur de ligne pour l'output de decompression
 */
 
 /*
@@ -120,7 +119,7 @@ static t_error	print_error(t_error error)
 	if (error == EXT_ERROR)
 		write(1, "ERROR : Wrong file extension.\n", 30);
 	if (error == FILE_ERROR)
-		write(1, "ERROR : Impossible to read or write files.\n", 43);
+		write(1, "ERROR : Error while reading or writing files.\n", 46);
 	return (error);
 }
 
@@ -154,6 +153,42 @@ static t_error	check_ext(char *option, char *filename)
 	return (EXT_ERROR);
 }
 
+static int	check_symbol(char c)
+{
+	return (c == 'A' || c == 'C' || c == 'G' || c == 'T');
+}
+
+static char	*check_dna(char *dna)
+{
+	size_t	i_src = 0;
+	size_t	i_dst = 0;
+	char	*dna_trim = (char*)malloc(strlen(dna) + 1);
+
+	if (dna_trim == NULL)
+	{
+		free(dna);
+		return (NULL);
+	}
+	while (dna[i_src])
+	{
+		if (check_symbol(dna[i_src]))
+		{
+			dna_trim[i_dst] = dna[i_src];
+			i_dst++;
+		}
+		else if (dna[i_src] != '\n')
+		{
+			free(dna_trim);
+			free(dna);
+			return (NULL);
+		}
+		i_src++;
+	}
+	dna_trim[i_dst] = '\0';
+	free(dna);
+	return (dna_trim);
+}
+
 int			main(int ac, char **av)
 {
 	int		fd_read = -1;
@@ -171,17 +206,17 @@ int			main(int ac, char **av)
 		{
 			if (!(dna = read_file(fd_read, 0)))
 				return (safe_exit(fd_read, fd_write, dna));
-			size = strlen(dna);
-			if (compress(fd_write, dna, size) == FILE_ERROR)
+			if (!(dna = check_dna(dna)))
 				return (safe_exit(fd_read, fd_write, dna));
+			size = strlen(dna);
+			compress(fd_write, dna, size);
 		}
 		else if (!strcmp("-d", av[1]))
 		{
 			read(fd_read, &size, sizeof(size_t));
 			if (!(dna = read_file(fd_read, 0)))
 				return (safe_exit(fd_read, fd_write, dna));
-			if (decompress(fd_write, dna, size) == FILE_ERROR)
-				return (safe_exit(fd_read, fd_write, dna));
+			decompress(fd_write, dna, size);
 		}
 	}
 	else
