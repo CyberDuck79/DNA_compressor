@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 15:52:37 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 18:56:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/16 20:18:27 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 /*
 ** TODO :
-** - permettre de choisir une longueur de ligne pour l'output de decompression
+** - faire via lecture sequentielle car les fichiers trop gros ne passe pas
+** - reutiliser les fonctions de base mais appeler avec un buffer a la place de dna
 */
 
 /*
