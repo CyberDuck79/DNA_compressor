@@ -8,3 +8,6 @@ flags : -c compression, -d decompression
 file : .dna extension for compression, .dzp for decompression  
 the file can only contains newline and ACGT chars.  
   
+
+
+TODO : change read_all_file by buffer
