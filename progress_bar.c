@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 15:13:50 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/02/13 18:56:10 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/10/23 10:53:45 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_progress(size_t total)
 	int				load = BAR_LENGTH - bar;
 	int				percent = count * 100 / total;
 
+	if (count == 1)
+		printf("\e[?25l");
 	printf("\rProgress [%.*s%.*s] %i%%", bar, BAR, load, LOAD, percent);
 	fflush(stdout);
 	if (count < total)
